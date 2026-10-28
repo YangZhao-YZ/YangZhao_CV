@@ -41,7 +41,7 @@
 \newcommand{\cventryspace}{\par\addvspace{9pt}\Needspace{3\baselineskip}}
 \newcommand{\cvproject}[1]{\par\Needspace{2\baselineskip}\hspace*{11bp}#1\par}
 \newcommand{\cvpublication}[1]{%
-  \bibentry{#1}\par\addvspace{9.2bp}}
+  \cvpublicationtext{12.65}{\bibentry{#1}.}\addvspace{9.2bp}}
 
 % The content file supplies only contact text; header formatting lives here.
 \newcommand{\cvheader}[3]{%
@@ -57,15 +57,22 @@
   \Needspace{15\baselineskip}\cvsection{#1}}
 
 % Load BibTeX records without printing a separate reference list.
-\AtBeginDocument{\bibliographystyle{cvpublications}\nobibliography{publications}}
+\AtBeginDocument{\bibliographystyle{IEEEtran}\cvbstcontrol\nobibliography{publications}}
 
-% Word's publication paragraphs use single spacing, except the last two
-% entries, which explicitly use 1.15 line spacing in the source document.
-% Fixed word spacing compensates for the substitute font’s tighter kerning.
+% IEEE-formatted references retain the CV’s unnumbered layout and name emphasis.
 \newcommand{\cvpublicationtext}[2]{%
-  {\fontsize{11bp}{#1bp}\selectfont\spaceskip=0.27em\relax\interlinepenalty=10000 #2\par}}
+  {\fontsize{11bp}{#1bp}\selectfont\interlinepenalty=10000 #2\par}}
 \newcommand{\cvpublicationsection}[1]{%
   \par\addvspace{16bp}\cvsection{#1}\vspace{6bp}}
 
 % Research roles follow advisors on their own line in the Word CV.
 \newcommand{\cvresearchdetails}[2]{\textit{#1}\par\textit{#2}\par}
+
+% IEEEtran passes each formatted author name through this command.
+% Bold the CV owner while leaving the standard IEEE author order intact.
+\newcommand{\cvAuthor}[1]{%
+  \ifstrequal{#1}{Y.~Zhao}{\textbf{#1}}{#1}}
+
+% Style-control entries configure BibTeX but are not rendered citations.
+\newcommand{\cvbstcontrol}{%
+  \immediate\write\@auxout{\string\citation{cv:control}}}

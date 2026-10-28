@@ -1,6 +1,12 @@
-% Publication metadata transcribed from YangZhao_CV_ 202610.docx.
-% This CV style preserves title capitalization as entered.
-% The optional cvtitleunderline field preserves emphasis from the Word CV.
+% IEEEtran formats standard metadata; store names as Family, Given.
+% Keep publication venue/status from the CV; arXiv URLs link the preprints.
+% Full author names for the two 2026 papers checked against arXiv on 2026-10-28.
+
+@IEEEtranBSTCTL{cv:control,
+  CTLname_latex_cmd = {\cvAuthor},
+  CTLdash_repeated_names = {no},
+  CTLuse_alt_spacing = {no}
+}
 
 @inproceedings{xue2026scalable,
   author    = {Xue, X. and Zhao, Yang and Gah, E. and Yong, S. Z.},
@@ -19,45 +25,45 @@
 }
 
 @inproceedings{zhao2026safebydesign,
-  author           = {Zhao, Yang and Lee, J. and Jeon, H. J. and Yong, S. Z.},
+  author           = {Zhao, Yang and Lee, Jungeun and Jeon, Jeong Hwan and Yong, Sze Zheng},
   title            = {Learning Safe-by-Design Neural Network Controllers},
   booktitle        = {IEEE Conference on Decision and Control (CDC)},
   year             = {2026},
   eprint           = {2605.26534},
+  url              = {https://arxiv.org/abs/2605.26534},
   archivePrefix    = {arXiv},
-  cvtitleunderline = {yes}
 }
 
 @inproceedings{zhao2026caffnet,
-  author           = {Zhao, Yang and Lee, J. and Jeon, H. J. and Yong, S. Z.},
-  title            = {CAffNet: Hard Constraint-Affine Neural Networks},
+  author           = {Zhao, Yang and Lee, Jungeun and Jeon, Jeong Hwan and Yong, Sze Zheng},
+  title            = {{CAffNet}: Hard Constraint-Affine Neural Networks},
   booktitle        = {International Conference on Machine Learning (ICML)},
   year             = {2026},
   eprint           = {2605.24437},
+  url              = {https://arxiv.org/abs/2605.24437},
   archivePrefix    = {arXiv},
-  cvtitleunderline = {yes}
 }
 
 @article{zhao2025tubempc,
   author  = {Zhao, Yang and Gah, E. and Yong, S. Z.},
-  title   = {Tube-Based MPC for Uncertain Sampled-Data Control Systems With Inter-Sample Reachability Analysis},
+  title   = {Tube-Based {MPC} for Uncertain Sampled-Data Control Systems With Inter-Sample Reachability Analysis},
   journal = {IEEE Control Systems Letters},
   year    = {2025},
   volume  = {9},
   pages   = {3047--3052},
-  doi     = {10.1109/LCSYS.2025.3647069}
+  doi     = {10.1109/LCSYS.2025.3647069},
+  url     = {https://doi.org/10.1109/LCSYS.2025.3647069}
 }
 
 @inproceedings{bansal2025airtaxisim,
   author    = {Bansal, A. and Yeghiazaryan, M. and Yoon, H.-J. and Wang, D. and Rasul, A. E. and Tao, C. and Zhao, Yang and Zhu, T. and So, O. and Fan, C. and others},
-  title     = {AirTaxiSim: A Simulator for Autonomous Air Taxis},
+  title     = {{AirTaxiSim}: A Simulator for Autonomous Air Taxis},
   booktitle = {AIAA AVIATION FORUM AND ASCEND 2025},
   year      = {2025},
   pages     = {3349}
 }
 
 @inproceedings{tao2024bspline,
-  cvlinespacing = {14.5},
   author    = {Tao, C. and Cheng, S. and Wang, F. and Zhao, Yang and Hovakimyan, N.},
   title     = {An optimization-based planner with b-spline parameterized continuous-time reference signals},
   booktitle = {2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
@@ -66,7 +72,6 @@
 }
 
 @inproceedings{bansal2024landing,
-  cvlinespacing = {14.5},
   author    = {Bansal, A. and Zhao, Yang and Zhu, J. and Cheng, S. and Gu, Y. and Yoon, H. J. and Kim, H. and Hovakimyan, N. and Sha, L. R.},
   title     = {Synergistic perception and control simplex for verifiable safe vertical landing},
   booktitle = {AIAA Scitech 2024 Forum},

@@ -1,7 +1,8 @@
 # Yang Zhao CV
 
 Editable LaTeX transcription of `YangZhao_CV_ 202610.docx`.
-The wording, section order, publication emphasis, and hyperlinks are retained.
+The CV content and section order follow the Word source. Publications use
+IEEE reference formatting with bold emphasis on the CV owner’s name.
 The layout follows the Word CV using a Times-compatible font; line wrapping
 and page breaks can differ between Word and LaTeX.
 
@@ -26,7 +27,7 @@ SyncTeX, and the generated PDF, are ignored by Git.
 - `main.tex`: CV content and publication keys in the desired display order.
 - `cvstyle.sty`: typography, spacing, section rules, page numbering, and BibTeX loading.
 - `publications.bib`: editable paper metadata.
-- `cvpublications.bst`: BibTeX formatting, including bold author names and links.
+- Standard `IEEEtran.bst` (included in TeX Live): IEEE reference formatting.
 
 To add a paper, add a record to `publications.bib`, then place its key in the
 Publications section of `main.tex`:
@@ -38,13 +39,18 @@ Publications section of `main.tex`:
 Reorder these lines to change publication order. Metadata uses standard
 BibTeX fields such as `author`, `title`, `booktitle` or `journal`, `year`,
 `pages`, `doi`, and `eprint` (for arXiv IDs). Separate authors with `and`;
-use `Zhao, Yang` for your name so the style displays **Zhao, Y.** automatically.
-The optional `cvtitleunderline = {yes}` retains title emphasis from the Word CV.
-The optional `cvlinespacing = {14.5}` preserves the wider spacing explicitly
-used by the final two Word publication entries; the default is 12.65 points.
-Publication word spacing and heading offsets in `cvstyle.sty` follow the Word
-reference. Each citation stays on one page. Exact glyph shapes and some page
-breaks differ because the portable LaTeX font substitutes for Times New Roman.
+use `Zhao, Yang` for your name so IEEEtran displays **Y. Zhao** automatically.
+The standard style handles initials before surnames, quoted sentence-case
+paper titles, italic venue names, volume/page labels, and year placement.
+Protect proper names and acronyms with braces, for example `{CAffNet}` and
+`{MPC}`. Provide a `url` field for clickable arXiv/DOI links; IEEEtran uses
+that field for its online-source link. The `doi` and `eprint` metadata can
+also remain in the record for reuse.
+
+The `cv:control` entry configures author-name emphasis and disables repeated-
+author dashes. The CV retains its unnumbered publication list, manual ordering,
+and bold owner name; these are CV presentation choices around IEEE-formatted
+reference text. No custom bibliography style file is needed.
 The `.bbl` file is generated during compilation and stays ignored by Git.
 
 Without `latexmk`, compile with `pdflatex main`, `bibtex main`, then
@@ -60,7 +66,7 @@ This checkout uses these remotes:
 After editing locally, compile and review the PDF, then commit and push:
 
 ```sh
-git add main.tex cvstyle.sty publications.bib cvpublications.bst README.md .gitignore
+git add main.tex cvstyle.sty publications.bib README.md .gitignore
 git commit -m "Update CV"
 git push origin main
 git push github main
