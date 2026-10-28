@@ -40,3 +40,16 @@
 \newcommand{\cvproject}[1]{\par\Needspace{2\baselineskip}#1\par}
 \newcommand{\cvpublication}[1]{%
   {\fontsize{11bp}{12.7bp}\selectfont #1\par}\addvspace{9pt}}
+
+% The content file supplies only contact text; header formatting lives here.
+\newcommand{\cvheader}[3]{%
+  \begin{center}
+    {\fontsize{20}{23}\selectfont\bfseries #1\par}
+    \vspace{3pt}
+    {\fontsize{10}{12}\selectfont #2 | %
+      \href{#3}{\uline{Personal Website}}\par}
+  \end{center}
+  \vspace{-8pt}}
+% Keep the work heading and its entry together as in the verified layout.
+\newcommand{\cvworksection}[1]{%
+  \Needspace{15\baselineskip}\cvsection{#1}}

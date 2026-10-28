@@ -22,12 +22,10 @@ SyncTeX, and the generated PDF, are ignored by Git.
 
 ## Edit
 
-- `main.tex`: document entry point and contact information.
+- `main.tex`: all CV content, including contact information and every section.
 - `cvstyle.sty`: typography, spacing, section rules, and page numbering.
-- `sections/*.tex`: education, publications, research, projects, teaching,
-  work, awards, and activities.
 
-Publications are written directly in `sections/publications.tex` to preserve
+Publications are written directly in `main.tex` to preserve
 the exact citation wording in the Word file. No `.bib` or `.bbl` is needed.
 
 ## Synchronize
@@ -40,7 +38,7 @@ This checkout uses these remotes:
 After editing locally, compile and review the PDF, then commit and push:
 
 ```sh
-git add main.tex cvstyle.sty sections README.md .gitignore
+git add main.tex cvstyle.sty README.md .gitignore
 git commit -m "Update CV"
 git push origin main
 git push github main
