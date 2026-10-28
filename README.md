@@ -33,7 +33,7 @@ the exact citation wording in the Word file. No `.bib` or `.bbl` is needed.
 This checkout uses these remotes:
 
 - `origin`: the new Overleaf project, `6ae27d0e7c9d7131e3af7136`.
-- `github`: `https://github.com/YangZhao-YZ/YangZhao_Resume.git`.
+- `github`: `https://github.com/YangZhao-YZ/YangZhao_CV.git`.
 
 After editing locally, compile and review the PDF, then commit and push:
 
