@@ -1,0 +1,64 @@
+name: Build and archive CV
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Allow builds to finish; the publisher guards against out-of-order completion.
+    steps:
+      - name: Check out the source revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Test daily publishing behavior
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Set reproducible PDF timestamp
+        shell: bash
+        run: |
+          printf 'SOURCE_DATE_EPOCH=%s\n' "$(git show -s --format=%ct "$GITHUB_SHA")" >> "$GITHUB_ENV"
+
+      - name: Compile LaTeX and BibTeX
+        uses: xu-cheng/latex-action@6549dc21effb2730855a1281407ecfcececc6c1b # v4
+        with:
+          root_file: main.tex
+          texlive_version: '2025'
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+
+      - name: Save the compiled PDF outside the checkout
+        run: cp main.pdf "$RUNNER_TEMP/YangZhao_CV.pdf"
+
+      - name: Upload downloadable CV
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: YangZhao_CV-${{ github.sha }}
+          path: ${{ runner.temp }}/YangZhao_CV.pdf
+          if-no-files-found: error
+
+      - name: Commit latest CV and daily backup
+        run: >-
+          python3 .github/scripts/publish_cv.py
+          --source "$GITHUB_SHA"
+          --pdf "$RUNNER_TEMP/YangZhao_CV.pdf"
+          --branch main
+
+      - name: Upload compilation diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: latex-diagnostics-${{ github.run_id }}
+          path: |
+            main.log
+            main.blg
+          if-no-files-found: ignore
+          retention-days: 7

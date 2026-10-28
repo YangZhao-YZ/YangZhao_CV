@@ -55,3 +55,7 @@ tmp/
 /main.pdf
 /main-*.pdf
 .DS_Store
+
+# Python caches from workflow publisher checks
+__pycache__/
+*.pyc

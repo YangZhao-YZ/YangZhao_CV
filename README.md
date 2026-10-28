@@ -20,7 +20,8 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
 The result is `main.pdf`. Build products, including `.bbl`, `.aux`, logs,
-SyncTeX, and the generated PDF, are ignored by Git.
+SyncTeX, and the intermediate `main.pdf`, are ignored by Git. The published
+PDFs described below are intentionally tracked.
 
 ## Edit
 
@@ -56,6 +57,29 @@ The `.bbl` file is generated during compilation and stays ignored by Git.
 Without `latexmk`, compile with `pdflatex main`, `bibtex main`, then
 `pdflatex main` twice. No Biber installation is needed.
 
+## Automatic PDF builds and history
+
+Every push to GitHub’s `main` branch runs `.github/workflows/build-cv.yml`
+once, compiling only the final commit when a push includes multiple commits.
+The workflow compiles `main.tex` with pdfLaTeX/BibTeX using TeX Live 2025,
+then commits:
+
+- `YangZhao_CV.pdf`: the latest successfully compiled CV.
+- `history/YangZhao_CV_yyyymmdd.pdf`: the latest successful revision for that date.
+- `history/build-index.json`: the source commit behind the latest and daily PDFs.
+
+Dates come from the source commit timestamp in **America/Chicago**. Later
+successful updates on the same date overwrite that day’s PDF. Earlier versions
+remain accessible through Git history. All builds are allowed to finish; if runs finish out of order, the publisher keeps newer PDFs
+as the root and daily versions. Failed compilation leaves the existing PDFs
+untouched. GitHub’s built-in token commits the PDFs without triggering another
+build, so no extra secret or personal access token is required.
+
+The PDF is also downloadable from each successful Actions run. To rebuild
+manually, choose **Actions → Build and archive CV → Run workflow** on `main`.
+Overleaf edits trigger a build after those edits are synchronized to GitHub.
+The workflow publishes to GitHub; it does not push to Overleaf.
+
 ## Synchronize
 
 This checkout uses these remotes:
@@ -72,7 +96,8 @@ git push origin main
 git push github main
 ```
 
-Before editing locally after changes in Overleaf or GitHub, fetch and merge
+GitHub Actions adds PDF commits to `main`, so run `git pull --ff-only github main`
+before pushing further local edits. Before editing after changes in Overleaf or GitHub, fetch and merge
 the corresponding remote branch. Resolve concurrent edits before pushing.
 These two Git remotes do not automatically mirror each other; push to both
 to keep them synchronized. Git remote settings belong to the local checkout
