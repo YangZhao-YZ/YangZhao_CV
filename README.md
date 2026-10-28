@@ -40,6 +40,11 @@ BibTeX fields such as `author`, `title`, `booktitle` or `journal`, `year`,
 `pages`, `doi`, and `eprint` (for arXiv IDs). Separate authors with `and`;
 use `Zhao, Yang` for your name so the style displays **Zhao, Y.** automatically.
 The optional `cvtitleunderline = {yes}` retains title emphasis from the Word CV.
+The optional `cvlinespacing = {14.5}` preserves the wider spacing explicitly
+used by the final two Word publication entries; the default is 12.65 points.
+Publication word spacing and heading offsets in `cvstyle.sty` follow the Word
+reference. Each citation stays on one page. Exact glyph shapes and some page
+breaks differ because the portable LaTeX font substitutes for Times New Roman.
 The `.bbl` file is generated during compilation and stays ignored by Git.
 
 Without `latexmk`, compile with `pdflatex main`, `bibtex main`, then

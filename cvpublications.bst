@@ -2,7 +2,7 @@
 %% Entries are displayed in main.tex order by bibentry; no sorting is needed.
 ENTRY
   { author title journal booktitle year volume number pages
-    doi url eprint archivePrefix note cvtitleunderline }
+    doi url eprint archivePrefix note cvtitleunderline cvlinespacing }
   {} {}
 INTEGERS { nameptr numnames }
 STRINGS { names name result entrytext venue }
@@ -82,7 +82,7 @@ FUNCTION {format.entry}
       if$
     }
     { entrytext " \href{https://doi.org/" * doi *
-      "}{\uline{https://doi.org/" * doi * "}}." * 'entrytext := }
+      "}{\uline{https://doi.org/" * doi * "}}" * 'entrytext := }
   if$
   entrytext
 }
@@ -90,7 +90,8 @@ FUNCTION {format.entry}
 FUNCTION {output.entry}
 { newline$
   "\bibitem{" cite$ * "}" * write$ newline$
-  format.entry write$ newline$
+  cvlinespacing empty$ { "12.65" } { cvlinespacing } if$
+  "\cvpublicationtext{" swap$ * "}{" * format.entry * "}" * write$ newline$
   newline$
 }
 FUNCTION {article} { output.entry }

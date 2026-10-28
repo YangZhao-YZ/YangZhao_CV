@@ -33,15 +33,15 @@
 \newcommand{\cvsection}[1]{%
   \par\addvspace{9pt}\Needspace{4\baselineskip}%
   {\fontsize{13}{15}\selectfont\bfseries #1\par}%
-  \vspace{2pt}\hrule height 0.8pt\relax\vspace{6pt}}
+  \vspace{2pt}\nointerlineskip\moveleft5.28bp\vbox{\hrule width\dimexpr\linewidth+10.56bp\relax height1bp}\nointerlineskip\vspace{6pt}}
 \newcommand{\cvrow}[2]{%
   \noindent\begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}r@{}}%
     #1 & #2\\
   \end{tabular*}\par}
 \newcommand{\cventryspace}{\par\addvspace{9pt}\Needspace{3\baselineskip}}
-\newcommand{\cvproject}[1]{\par\Needspace{2\baselineskip}#1\par}
+\newcommand{\cvproject}[1]{\par\Needspace{2\baselineskip}\hspace*{11bp}#1\par}
 \newcommand{\cvpublication}[1]{%
-  {\fontsize{11bp}{12.7bp}\selectfont\bibentry{#1}.\par}\addvspace{9pt}}
+  \bibentry{#1}\par\addvspace{9.2bp}}
 
 % The content file supplies only contact text; header formatting lives here.
 \newcommand{\cvheader}[3]{%
@@ -58,3 +58,14 @@
 
 % Load BibTeX records without printing a separate reference list.
 \AtBeginDocument{\bibliographystyle{cvpublications}\nobibliography{publications}}
+
+% Word's publication paragraphs use single spacing, except the last two
+% entries, which explicitly use 1.15 line spacing in the source document.
+% Fixed word spacing compensates for the substitute font’s tighter kerning.
+\newcommand{\cvpublicationtext}[2]{%
+  {\fontsize{11bp}{#1bp}\selectfont\spaceskip=0.27em\relax\interlinepenalty=10000 #2\par}}
+\newcommand{\cvpublicationsection}[1]{%
+  \par\addvspace{16bp}\cvsection{#1}\vspace{6bp}}
+
+% Research roles follow advisors on their own line in the Word CV.
+\newcommand{\cvresearchdetails}[2]{\textit{#1}\par\textit{#2}\par}
