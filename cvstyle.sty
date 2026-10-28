@@ -69,9 +69,10 @@
 \newcommand{\cvresearchdetails}[2]{\textit{#1}\par\textit{#2}\par}
 
 % IEEEtran passes each formatted author name through this command.
-% Bold the CV owner while leaving the standard IEEE author order intact.
+% Bold the CV owner and retain Jeon’s author-supplied citation spelling.
 \newcommand{\cvAuthor}[1]{%
-  \ifstrequal{#1}{Y.~Zhao}{\textbf{#1}}{#1}}
+  \ifstrequal{#1}{Y.~Zhao}{\textbf{#1}}{%
+    \ifstrequal{#1}{J.~h. Jeon}{J.~hwan Jeon}{#1}}}
 
 % Style-control entries configure BibTeX but are not rendered citations.
 \newcommand{\cvbstcontrol}{%
