@@ -2,19 +2,184 @@
 \documentclass[11pt,letterpaper]{article}
 \usepackage{cvstyle}
 \begin{document}
-\begin{center}
-  {\fontsize{20}{23}\selectfont\bfseries Yang Zhao\par}
-  \vspace{3pt}
-  {\fontsize{10}{12}\selectfont zhao.yang12@northeastern.edu | %
-    \href{https://yangzhao-yz.github.io/}{\uline{Personal Website}}\par}
-\end{center}
-\vspace{-8pt}
-\input{sections/education}
-\input{sections/publications}
-\input{sections/research}
-\input{sections/projects}
-\input{sections/teaching}
-\input{sections/work}
-\input{sections/awards}
-\input{sections/activities}
+% Contact information
+\cvheader{Yang Zhao}{zhao.yang12@northeastern.edu}{https://yangzhao-yz.github.io/}
+
+% Education
+\cvsection{Education}
+\cvrow{\textbf{Northeastern University (NEU)}}{Boston, MA}
+\cvrow{\textit{PhD in Mechanical and Industrial Engineering}}{September 2024 - Present}
+\begin{itemize}
+  \item Advisor: Prof. Sze Zheng Yong
+  \item GPA: 4.0/4.0
+\end{itemize}
+
+\cventryspace
+\cvrow{\textbf{University of Illinois Urbana-Champaign (UIUC)}}{Champaign, IL}
+\cvrow{\textit{MS in Mechanical Engineering}}{August 2022 - May 2024}
+\begin{itemize}
+  \item Advisor: Prof. Naira Hovakimyan
+  \item GPA: 3.95/4.0
+\end{itemize}
+
+\cventryspace
+\cvrow{\textbf{The Hong Kong Polytechnic University (PolyU)}}{Hong Kong, China}
+\cvrow{\textit{BEng (HONORS) in Electronic \& Information Engineering}}{September 2018 - May 2022}
+\begin{itemize}
+  \item Thesis Advisor: Prof. Kenneth K. M. Lam
+  \item GPA: 3.69/4.30\quad Major GPA: 3.71/4.30 (With First Class Honours)
+  \item Dean’s List: 2019 - 2020, 2020 - 2021
+\end{itemize}
+
+% Publications
+\cvpublicationsection{Publications}
+\cvpublication{xue2026scalable}
+\cvpublication{xue2026multigoal}
+\cvpublication{zhao2026safebydesign}
+\cvpublication{zhao2026caffnet}
+\cvpublication{zhao2025tubempc}
+\cvpublication{bansal2025airtaxisim}
+\cvpublication{tao2024bspline}
+\cvpublication{bansal2024landing}
+
+% Research Experience
+\cvsection{Research Experience}
+\cvrow{\textbf{Intelligent Control and Estimation of Things Lab}, NEU}{July 2024 - Present}
+\cvresearchdetails{Advisor: Prof. Sze Zheng Yong}{Graduate Research Assistant}
+\cvproject{\textbf{\textit{CAffNet: Hard Constraint-Affine Neural Networks}}}
+\begin{itemize}
+  \item Proposed CAffNet, a closed-form neural network framework that guarantees hard satisfaction of an arbitrary number of input-dependent affine inequality constraints without requiring full row rank assumptions.
+  \item Proposed a constraint decomposition with a trainable projection module to handle linearly dependent constraints and non-unique projections.
+  \item Evaluated CAffNet with various experiments instantiated with feedforward and transformer architectures, achieving zero constraint violations and better performance.
+\end{itemize}
+\cvproject{\textbf{\textit{Learning Safe-by-Design Neural Network Controllers}}}
+\begin{itemize}
+  \item Proposed a safe-by-design neural network control framework that integrates trainable CBFs with CAffNet, enabling joint learning of the controller and CBF parameters with constraint satisfaction guaranteed by construction and preserving the expressiveness of control outputs while eliminating the need for a separate safety filtering optimization.
+  \item Introduced a computationally efficient formulation of CAffNet that significantly reduces the time cost of the projection step.
+  \item Demonstrated the effectiveness of our approach through extensive simulations, showing improved safety enforcement and control performance.
+\end{itemize}
+
+\cventryspace
+\cvrow{\textbf{Advanced Controls Research Laboratory}, UIUC}{January 2023 - May 2024}
+\cvresearchdetails{Advisor: Prof. Naira Hovakimyan}{Graduate Research Assistant}
+\cvproject{\textbf{\textit{Synergistic Perception and Control Simplex for Verifiable Safe Vertical Landing}}}
+\begin{itemize}
+  \item We proposed a verifiable solution for safely landing vertical takeoff and landing (VTOL) vehicles in cluttered environments, with robust collision avoidance guarantees.
+  \item We introduced intercomponent interactions that enhance the system’s performance, significantly reducing landing time, while maintaining high reliability of safety guarantees.
+\end{itemize}
+\cvproject{\textbf{\textit{An Optimization-Based Planner with B-spline Parameterized Continuous-Time Reference Signals}}}
+\begin{itemize}
+  \item We introduced BSPOP that generates continuous-time control signals that can be tracked by the lower-level controllers running at arbitrarily higher frequencies.
+  \item We validated that BSPOP can generate better planning paths compared with the same frequency baseline planner in both simulation and real-world implementation.
+\end{itemize}
+
+\cventryspace
+\cvrow{\textbf{Capstone Project}, PolyU}{January - December 2021}
+\cvresearchdetails{Advisor: Prof. Kenneth K. M. Lam}{Thesis Student}
+\cvproject{\textbf{\textit{Low-resolution Face Recognition Algorithms and Noise Effects}}}
+\begin{itemize}
+  \item Implemented a face detection and alignment algorithm (Multi-task Cascaded Convolutional Networks (MTCNN)) on facial databases (FERET and SCface)
+  \item Compared the performance of the state-of-the-art low-resolution face recognition (LRFR) method (Identity-Aware LRFR) and a general face recognition algorithm (SphereFace)
+  \item Proposed improved LRFR methods to be robust against noise and achieve higher recognition accuracy in real surveillance systems
+\end{itemize}
+
+\cventryspace
+\cvrow{\textbf{Online Summer Research Programme}, University of Cambridge}{July - August 2021}
+\cvresearchdetails{Advisor: Prof. Marwa Mahmoud}{Thesis Student}
+\cvproject{\textbf{\textit{Noise Effects on Low-resolution Face Recognition Algorithms}}}
+\begin{itemize}
+  \item Implemented Identity-Aware LRFR on synthetic and real low-resolution images
+  \item Compared the recognition accuracies on those two different kinds of images
+  \item Demonstrated the unsatisfactory recognition performance on real low-resolution images and showed the research gap between the ideal and the real environment
+  \item Evaluated effects of various types of noise (e.g., Gaussian, Poisson, Pepper \& Salt) on the performance of Identity-Aware LRFR algorithm
+\end{itemize}
+
+\cventryspace
+\cvrow{\textbf{Smart Textiles and Apparel Research Group}, PolyU}{May 2020 - August 2021}
+\cvresearchdetails{Advisor: Prof. Tao Xiaoming}{Undergraduate Research Assistant}
+\cvproject{\textbf{\textit{Paper-Based LED Screen Embedded in Clothing}}}
+\cvproject{\textbf{\textit{Remotely Controlled Robot Arm Based on Piezo Sensor}}}
+
+% Independent Project Experience
+\cvsection{Independent Project Experience}
+\cvrow{\textbf{Two-Joint Snake Robot Simulation}, Remote}{June - September 2022}
+\textit{Advisor: Tianyu Wang (Current Ph.D. Student at Georgia Institute of Technology)}\par
+\begin{itemize}
+  \item Evaluated the effects of isotropic and anisotropic friction between the swimmer’s body and ground in the MuJoCo simulator
+  \item Developed reinforcement learning control algorithms to move the snake in a desired direction on flat ground in the MuJoCo simulator
+\end{itemize}
+
+\cventryspace
+\cvrow{\textbf{EIE Microcontroller Contest}, PolyU}{December 2020 - February 2021}
+\textit{Advisor: Dr. Lawrence Chi-Chung CHEUNG}\par
+\cvproject{\textbf{\textit{Smart Turnstile System Based on ToF Sensor}}}
+\begin{itemize}
+  \item Developed an intelligent turnstile system suitable for both left-handers and right-handers to solve the problem of left-handers unintentionally opening adjacent gates
+  \item Integrated Arduino and ToF sensor to detect and analyze distance data in various turnstile opening gesture cases, enabling the turnstile system to respond correctly to both left- and right-hand gestures
+\end{itemize}
+
+% Teaching Experience
+\cvsection{Teaching Experience}
+\cvrow{\textbf{ME 270 Design for Manufacturability}, UIUC}{Fall 2023, Spring 2024}
+\cvrow{\textit{Teaching Assistant}}{\textit{Course Instructor: Prof. Tom Golecki}}
+
+\cventryspace
+\cvrow{\textbf{TAM 212 Introductory Dynamics}, UIUC}{Spring 2023}
+\cvrow{\textit{Teaching Assistant}}{\textit{Course Instructor: Prof. Matthew West}}
+
+% Work Experience
+\cvworksection{Work Experience}
+\cvrow{\textbf{Edison.ai}, Tokyo, Japan}{June - July 2021}
+\textit{Software Engineer (Remote)}\par
+\begin{itemize}
+  \item Independently developed \href{https://github.com/ttezy/Time-Sequence-Analysis}{\uline{time sequence forecasting models}} of customer demand used in automated stores to enhance the user experience through adjusting product supply according to specific conditions, including the weather, traffic volume, time, etc.
+  \item Tested the performance of Vector Autoregression (VAR), Long Short-term Memory (LSTM), and Facebook Prophet and demonstrated how to apply them on an air pollution dataset to predict future air quality
+  \item Annotated images with labels (head, hand, and position) by makesense.ai to train human detection models based on YOLO
+\end{itemize}
+
+% Awards \& Honors
+\cvsection{Awards \& Honors}
+\begin{itemize}
+  \item The Hong Kong Polytechnic University Scholarship 2021/22
+  \item HKSAR Government Scholarship Fund - Talent Development Scholarship 2020/21
+  \item Hong Kong Wanren Funding (2019 Globex Julmester @Peking University)
+\end{itemize}
+
+% Extracurricular Activities
+\cvsection{Extracurricular Activities}
+\cvrow{\textbf{Tsinghua i-Space Innovation Camp }(1st Prize), Tsinghua University}{June - July 2020}
+\textit{Group Member (Remote)}\par
+\begin{itemize}
+  \item Made and presented Intelligent Duct Cleaning Robot proposal and business plan
+\end{itemize}
+
+\cventryspace
+\cvrow{\textbf{HeartFire Education Service Voluntary Teaching Trip}, Guangxi, China}{August 2019}
+\textit{Vice Team Leader}\par
+\begin{itemize}
+  \item Led a team of 8 volunteers to provide teaching services at the local primary school
+\end{itemize}
+
+\cventryspace
+\cvrow{\textbf{Service-Learning Trip}, Kyoto, Japan}{June 2019}
+\textit{Group Member}\par
+\begin{itemize}
+  \item Constructed a treehouse and a wooden bridge to improve tourism and transportation for the local community together with around 30 volunteers
+\end{itemize}
+
+\cventryspace
+\cvrow{\textbf{HeartFire, 8th Committee}, PolyU}{April 2019 - April 2020}
+\textit{Human Resources Manager}\par
+\begin{itemize}
+  \item Promoted volunteer teaching activities with other committee members
+  \item Scheduled interviews for around 200 applicants and supervised the recruiting process to select qualified volunteers to teach students in underserved areas
+\end{itemize}
+
+\cventryspace
+\cvrow{\textbf{HeartFire Education Service Voluntary Teaching Trip}, Hainan, China}{January 2019}
+\textit{Team Member}\par
+\begin{itemize}
+  \item Provided volunteer teaching services to students at local primary and high schools
+\end{itemize}
+
 \end{document}
