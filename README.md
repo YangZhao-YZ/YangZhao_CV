@@ -9,7 +9,8 @@ and page breaks can differ between Word and LaTeX.
 
 In Overleaf, select `main.tex` as the main document and **pdfLaTeX** as the
 compiler. Use a recent TeX Live version. No external fonts, custom document
-classes, bibliography processor, or shell escape are required.
+classes or shell escape are required. Publications use BibTeX; Overleaf and
+`latexmk` run it automatically.
 
 Locally, with TeX Live installed:
 
@@ -22,11 +23,27 @@ SyncTeX, and the generated PDF, are ignored by Git.
 
 ## Edit
 
-- `main.tex`: all CV content, including contact information and every section.
-- `cvstyle.sty`: typography, spacing, section rules, and page numbering.
+- `main.tex`: CV content and publication keys in the desired display order.
+- `cvstyle.sty`: typography, spacing, section rules, page numbering, and BibTeX loading.
+- `publications.bib`: editable paper metadata.
+- `cvpublications.bst`: BibTeX formatting, including bold author names and links.
 
-Publications are written directly in `main.tex` to preserve
-the exact citation wording in the Word file. No `.bib` or `.bbl` is needed.
+To add a paper, add a record to `publications.bib`, then place its key in the
+Publications section of `main.tex`:
+
+```tex
+\cvpublication{zhao2026caffnet}
+```
+
+Reorder these lines to change publication order. Metadata uses standard
+BibTeX fields such as `author`, `title`, `booktitle` or `journal`, `year`,
+`pages`, `doi`, and `eprint` (for arXiv IDs). Separate authors with `and`;
+use `Zhao, Yang` for your name so the style displays **Zhao, Y.** automatically.
+The optional `cvtitleunderline = {yes}` retains title emphasis from the Word CV.
+The `.bbl` file is generated during compilation and stays ignored by Git.
+
+Without `latexmk`, compile with `pdflatex main`, `bibtex main`, then
+`pdflatex main` twice. No Biber installation is needed.
 
 ## Synchronize
 
@@ -38,7 +55,7 @@ This checkout uses these remotes:
 After editing locally, compile and review the PDF, then commit and push:
 
 ```sh
-git add main.tex cvstyle.sty README.md .gitignore
+git add main.tex cvstyle.sty publications.bib cvpublications.bst README.md .gitignore
 git commit -m "Update CV"
 git push origin main
 git push github main

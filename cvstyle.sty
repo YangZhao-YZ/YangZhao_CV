@@ -12,6 +12,8 @@
 \RequirePackage{needspace}
 \RequirePackage[normalem]{ulem}
 \RequirePackage{xcolor}
+\RequirePackage[numbers]{natbib}
+\RequirePackage{bibentry}
 \RequirePackage{hyperref}
 \hypersetup{colorlinks=true,urlcolor=blue,linkcolor=black,
   pdftitle={Yang Zhao Curriculum Vitae},pdfauthor={Yang Zhao}}
@@ -39,7 +41,7 @@
 \newcommand{\cventryspace}{\par\addvspace{9pt}\Needspace{3\baselineskip}}
 \newcommand{\cvproject}[1]{\par\Needspace{2\baselineskip}#1\par}
 \newcommand{\cvpublication}[1]{%
-  {\fontsize{11bp}{12.7bp}\selectfont #1\par}\addvspace{9pt}}
+  {\fontsize{11bp}{12.7bp}\selectfont\bibentry{#1}.\par}\addvspace{9pt}}
 
 % The content file supplies only contact text; header formatting lives here.
 \newcommand{\cvheader}[3]{%
@@ -53,3 +55,6 @@
 % Keep the work heading and its entry together as in the verified layout.
 \newcommand{\cvworksection}[1]{%
   \Needspace{15\baselineskip}\cvsection{#1}}
+
+% Load BibTeX records without printing a separate reference list.
+\AtBeginDocument{\bibliographystyle{cvpublications}\nobibliography{publications}}
