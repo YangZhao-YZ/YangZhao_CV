@@ -51,6 +51,7 @@ class PublicationTests(unittest.TestCase):
         tomorrow = self.source('next day edit', '2026-10-29T23:00:00+00:00')
         self.git('push', 'origin', 'main')
         self.publish(older, b'%PDF-first')
+        self.assertIn('[skip ci]', self.git('log', '-1', '--format=%s'))
         self.publish(newer, b'%PDF-second')
         daily = Path('history/YangZhao_CV_20261028.pdf')
         self.assertEqual(daily.read_bytes(), b'%PDF-second')

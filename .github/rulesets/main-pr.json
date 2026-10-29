@@ -4,20 +4,26 @@
   "enforcement": "active",
   "conditions": {
     "ref_name": {
-      "include": ["refs/heads/main"],
+      "include": [
+        "refs/heads/main"
+      ],
       "exclude": []
     }
   },
   "bypass_actors": [
     {
-      "actor_id": 15368,
-      "actor_type": "Integration",
+      "actor_id": 168024539,
+      "actor_type": "DeployKey",
       "bypass_mode": "always"
     }
   ],
   "rules": [
-    {"type": "deletion"},
-    {"type": "non_fast_forward"},
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "non_fast_forward"
+    },
     {
       "type": "pull_request",
       "parameters": {
@@ -32,7 +38,10 @@
       "type": "required_status_checks",
       "parameters": {
         "required_status_checks": [
-          {"context": "Compile CV", "integration_id": 15368}
+          {
+            "context": "Compile CV",
+            "integration_id": 15368
+          }
         ],
         "strict_required_status_checks_policy": true
       }

@@ -76,8 +76,11 @@ Dates come from the source commit timestamp in **America/Chicago**. Later
 successful updates on the same date overwrite that day’s PDF. Earlier versions
 remain accessible through Git history. All builds are allowed to finish; if runs finish out of order, the publisher keeps newer PDFs
 as the root and daily versions. Failed compilation leaves the existing PDFs
-untouched. GitHub’s built-in token commits the PDFs without triggering another
-build, so no extra secret or personal access token is required.
+untouched. A dedicated repository deploy key commits the PDFs after merge,
+with `[skip ci]` in the generated commit message to prevent a rebuild loop.
+The private key is stored as the encrypted Actions secret `CV_PDF_PUBLISH_KEY`
+and is supplied only to the main-branch publishing job. PR builds receive no
+publishing key. No personal access token is used.
 
 The PDF is also downloadable from each successful Actions run. To rebuild
 manually, choose **Actions → Build and archive CV → Run workflow** on `main`.
@@ -123,7 +126,7 @@ then merge the PR when satisfied. The post-merge workflow refreshes the root
 PDF and the daily backup. No second reviewer is required for this personal
 repository, but the PR and a passing **Compile CV** check are required.
 
-The versioned policy is `.github/rulesets/main-pr.json`. Its GitHub Actions
+The versioned policy is `.github/rulesets/main-pr.json`. Its dedicated deploy-key
 exception permits generated PDF commits after merge; ordinary source changes
 must use a PR. The rule also prevents deleting or force-pushing `main`.
 
