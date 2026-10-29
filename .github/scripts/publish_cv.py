@@ -1,12 +1,14 @@
 """Publish PDFs from a disposable Actions checkout, without losing racing builds."""
 
 import argparse
+import hashlib
 from datetime import datetime
 import json
 import os
 from pathlib import Path
 import subprocess
 import time
+import tempfile
 from zoneinfo import ZoneInfo
 
 
@@ -29,7 +31,31 @@ def should_replace(previous, source, branch_head):
     return ancestor(previous, source)
 
 
+def rendered_pages(pdf_path):
+    """Compare all visible pages, ignoring PDF timestamps, IDs, and serialization."""
+    with tempfile.TemporaryDirectory() as directory:
+        prefix = Path(directory) / "page"
+        subprocess.run(
+            ["pdftoppm", "-r", "150", str(pdf_path), str(prefix)],
+            check=True, capture_output=True, timeout=90,
+        )
+        pages = sorted(Path(directory).glob("page-*.ppm"))
+        if not pages:
+            raise ValueError("The compiled PDF has no rendered pages")
+        return [hashlib.sha256(page.read_bytes()).digest() for page in pages]
+
+
+def same_cv(candidate, previous):
+    previous = Path(previous)
+    if not previous.exists():
+        return False
+    if Path(candidate).read_bytes() == previous.read_bytes():
+        return True
+    return rendered_pages(candidate) == rendered_pages(previous)
+
+
 def publish(pdf_path, source, branch):
+    pdf_path = Path(pdf_path).resolve()
     # Read everything needed from this build before switching to the current branch.
     pdf = Path(pdf_path).read_bytes()
     if not pdf.startswith(b"%PDF-"):
@@ -50,6 +76,23 @@ def publish(pdf_path, source, branch):
         head = git("rev-parse", "FETCH_HEAD").stdout.strip()
         # This script only runs in a disposable CI checkout, never the user's workspace.
         git("checkout", "--force", "-B", "cv-pdf-publish", head)
+        # A no-change build deliberately leaves no ledger commit. Reject older
+        # builds using source history so they cannot publish after such a build.
+        newest_source = git(
+            "log", "-1", "--format=%H", "--first-parent", head, "--", ".",
+            ":(exclude)YangZhao_CV.pdf", ":(exclude)history",
+        ).stdout.strip()
+        if newest_source and not ancestor(newest_source, source):
+            print("A newer source revision is on main; skipping this superseded build.")
+            return
+        if same_cv(pdf_path, latest):
+            message = "CV pages are unchanged; skipping PDF upload, history backup, and commit."
+            print(message)
+            summary = os.environ.get("GITHUB_STEP_SUMMARY")
+            if summary:
+                with open(summary, "a") as stream:
+                    stream.write(message + "\n")
+            return
         state = json.loads(index.read_text()) if index.exists() else {"latest": None, "daily": {}}
         state["timezone"] = "America/Chicago"
         daily.parent.mkdir(exist_ok=True)
@@ -83,9 +126,20 @@ def publish(pdf_path, source, branch):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pdf", required=True)
-    parser.add_argument("--source", required=True)
+    parser.add_argument("--source")
+    parser.add_argument("--compare-with", help="Compare visible pages without publishing")
     parser.add_argument("--branch", default="main")
     args = parser.parse_args()
+    if args.compare_with:
+        changed = not same_cv(args.pdf, args.compare_with)
+        print(f"CV changed: {str(changed).lower()}")
+        output = os.environ.get("GITHUB_OUTPUT")
+        if output:
+            with open(output, "a") as stream:
+                stream.write(f"changed={str(changed).lower()}\n")
+        return
+    if not args.source:
+        parser.error("--source is required when publishing")
     if os.environ.get("GITHUB_ACTIONS") != "true":
         parser.error("Run this publisher only in a disposable GitHub Actions checkout")
     publish(args.pdf, args.source, args.branch)

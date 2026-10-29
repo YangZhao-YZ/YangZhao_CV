@@ -60,13 +60,17 @@ Without `latexmk`, compile with `pdflatex main`, `bibtex main`, then
 ## Automatic PDF builds and history
 
 A pull request targeting `main` runs the **Compile CV** check and uploads a
-PDF preview. Each later push to the PR updates that preview once, using the
-final commit when the push includes multiple commits. PR builds are read-only
+PDF preview when its pages differ from the published CV. Each later push to the
+PR compiles once, using the final commit when the push includes multiple commits. PR builds are read-only
 and never change the published PDFs.
 
 After the PR is merged, the push to `main` compiles and publishes the final CV.
 The workflow compiles `main.tex` with pdfLaTeX/BibTeX using TeX Live 2025,
-then commits:
+then compares every page with the published CV using Poppler at 150 dpi. PDF
+timestamps, document IDs, and other invisible metadata do not count as CV
+changes. When the pages are identical, it skips the preview artifact upload,
+publishing job, history backup, build-index update, and generated commit.
+Otherwise it commits:
 
 - `YangZhao_CV.pdf`: the latest successfully compiled CV.
 - `history/YangZhao_CV_yyyymmdd.pdf`: the latest successful revision for that date.
@@ -74,15 +78,19 @@ then commits:
 
 Dates come from the source commit timestamp in **America/Chicago**. Later
 successful updates on the same date overwrite that day’s PDF. Earlier versions
-remain accessible through Git history. All builds are allowed to finish; if runs finish out of order, the publisher keeps newer PDFs
-as the root and daily versions. Failed compilation leaves the existing PDFs
-untouched. A dedicated repository deploy key commits the PDFs after merge,
+remain accessible through Git history. All builds are allowed to finish. A build
+superseded by a newer source commit on main skips publication; the newer build decides whether the CV changed.
+This also prevents an older build from publishing after a newer no-change run.
+Failed compilation leaves the existing PDFs untouched. A dedicated repository deploy key commits the PDFs after merge,
 with `[skip ci]` in the generated commit message to prevent a rebuild loop.
 The private key is stored as the encrypted Actions secret `CV_PDF_PUBLISH_KEY`
 and is supplied only to the main-branch publishing job. PR builds receive no
 publishing key. No personal access token is used.
 
-The PDF is also downloadable from each successful Actions run. To rebuild
+A changed PDF is also downloadable from its successful Actions run.
+An unchanged build passes the compile check without uploading another PDF.
+The publisher compares again against the current main branch before committing,
+so a concurrent publication cannot create a duplicate backup. To rebuild
 manually, choose **Actions → Build and archive CV → Run workflow** on `main`.
 Overleaf edits must first be brought into `update` and submitted as a PR.
 The workflow publishes to GitHub; it does not push to Overleaf.
