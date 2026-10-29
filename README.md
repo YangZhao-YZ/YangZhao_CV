@@ -59,8 +59,12 @@ Without `latexmk`, compile with `pdflatex main`, `bibtex main`, then
 
 ## Automatic PDF builds and history
 
-Every push to GitHub’s `main` branch runs `.github/workflows/build-cv.yml`
-once, compiling only the final commit when a push includes multiple commits.
+A pull request targeting `main` runs the **Compile CV** check and uploads a
+PDF preview. Each later push to the PR updates that preview once, using the
+final commit when the push includes multiple commits. PR builds are read-only
+and never change the published PDFs.
+
+After the PR is merged, the push to `main` compiles and publishes the final CV.
 The workflow compiles `main.tex` with pdfLaTeX/BibTeX using TeX Live 2025,
 then commits:
 
@@ -77,7 +81,7 @@ build, so no extra secret or personal access token is required.
 
 The PDF is also downloadable from each successful Actions run. To rebuild
 manually, choose **Actions → Build and archive CV → Run workflow** on `main`.
-Overleaf edits trigger a build after those edits are synchronized to GitHub.
+Overleaf edits must first be brought into `update` and submitted as a PR.
 The workflow publishes to GitHub; it does not push to Overleaf.
 
 ## Synchronize
@@ -87,18 +91,52 @@ This checkout uses these remotes:
 - `origin`: the new Overleaf project, `6ae27d0e7c9d7131e3af7136`.
 - `github`: `https://github.com/YangZhao-YZ/YangZhao_CV.git`.
 
-After editing locally, compile and review the PDF, then commit and push:
+Work on the reusable `update` branch and keep `main` as the approved CV.
+Start the branch once:
+
+```sh
+git fetch github
+git switch -c update github/main
+```
+
+For later editing sessions, preserve existing work and bring in the latest
+approved version:
+
+```sh
+git fetch github
+git switch update
+git merge github/main
+```
+
+Compile and review the changes, then submit them:
 
 ```sh
 git add main.tex cvstyle.sty publications.bib README.md .gitignore
 git commit -m "Update CV"
-git push origin main
-git push github main
+git push -u github update
+gh pr create --base main --head update --fill
 ```
 
-GitHub Actions adds PDF commits to `main`, so run `git pull --ff-only github main`
-before pushing further local edits. Before editing after changes in Overleaf or GitHub, fetch and merge
-the corresponding remote branch. Resolve concurrent edits before pushing.
-These two Git remotes do not automatically mirror each other; push to both
-to keep them synchronized. Git remote settings belong to the local checkout
-and are not stored in the repository files.
+If an `update` PR is already open, later pushes update that PR. Review its
+**Compile CV** result and download the PDF preview from the linked Actions run,
+then merge the PR when satisfied. The post-merge workflow refreshes the root
+PDF and the daily backup. No second reviewer is required for this personal
+repository, but the PR and a passing **Compile CV** check are required.
+
+The versioned policy is `.github/rulesets/main-pr.json`. Its GitHub Actions
+exception permits generated PDF commits after merge; ordinary source changes
+must use a PR. The rule also prevents deleting or force-pushing `main`.
+
+To bring source edits from Overleaf into the review process:
+
+```sh
+git switch update
+git fetch origin
+git merge origin/main
+git push github update
+```
+
+Resolve any conflicts before committing. Do not use Overleaf's synchronization
+to bypass the protected `main` branch on GitHub. The `origin` and `github`
+remotes do not automatically mirror each other, and their settings belong to
+this local checkout rather than the repository files.
