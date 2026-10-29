@@ -145,3 +145,21 @@ Resolve any conflicts before committing. Do not use Overleaf's synchronization
 to bypass the protected `main` branch on GitHub. The `origin` and `github`
 remotes do not automatically mirror each other, and their settings belong to
 this local checkout rather than the repository files.
+
+## Recover an Overleaf GitHub sync conflict
+
+If Overleaf creates an `overleaf-...` recovery branch, compare its content
+with the current CV before merging. Bring the recovery branch into `update`
+and resolve conflicts there, preserving any genuine new edits and the current
+formatting and automation. Submit the result through the existing update PR.
+
+For a sync recovery, merge the PR using **Create a merge commit**, rather than
+squashing or rebasing. Overleaf needs its recovery branch to be part of the
+history of the default branch. After the PR is merged into `main`, return to
+Overleaf and click **I have manually merged. Continue**. Do not click that
+button while the recovery exists only in `update`.
+
+The `overleaf-2026-10-28-2359` recovery branch was verified to have exactly the
+same file tree as the earlier IEEE-formatting commit `e8ea092`. Its history
+was reconciled into `update` while keeping the newer CV, corrected citation
+name, and automation files.
