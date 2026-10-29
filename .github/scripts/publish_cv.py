@@ -65,7 +65,7 @@ def publish(pdf_path, source, branch):
         if git("diff", "--cached", "--quiet", check=False).returncode == 0:
             print(f"Revision {source[:12]} has no newer PDFs to publish; no duplicate commit.")
             return
-        git("commit", "-m", f"Update compiled CV for {source[:12]}")
+        git("commit", "-m", f"Update compiled CV for {source[:12]} [skip ci]")
         pushed = git("push", "origin", f"HEAD:refs/heads/{branch}", check=False)
         if pushed.returncode == 0:
             message = f"Published daily backup {daily}; latest and daily PDFs reflect the newest successful source revision."
