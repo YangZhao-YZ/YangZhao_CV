@@ -126,9 +126,11 @@ then merge the PR when satisfied. The post-merge workflow refreshes the root
 PDF and the daily backup. No second reviewer is required for this personal
 repository, but the PR and a passing **Compile CV** check are required.
 
-The versioned policy is `.github/rulesets/main-pr.json`. Its dedicated deploy-key
+The versioned policy is `.github/rulesets/main-pr.json`. Its repository deploy-key
 exception permits generated PDF commits after merge; ordinary source changes
-must use a PR. The rule also prevents deleting or force-pushing `main`.
+must use a PR. The rule also prevents deleting or force-pushing `main`. The CV publisher is
+the repository’s only deploy key; GitHub applies this bypass to repository
+deploy keys as a group.
 
 To bring source edits from Overleaf into the review process:
 
